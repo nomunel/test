@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>CSS Loading spinner</title>
+<style type="text/css">
+div.spinner {
+position:relative;
+width:16px;
+height:16px;
+display:inline-block;
+}
+
+div.spinner div {
+width:10%;
+height:25%;
+background:#000;
+position:absolute;
+left:45%;
+top:38%;
+opacity:0;
+-webkit-animation:fade 1s linear infinite;
+-webkit-border-radius:50px;
+-webkit-box-shadow:0 0 3px rgba(0,0,0,0.2);
+}
+
+div.spinner div:nth-child(1) {-webkit-transform:rotate(0deg) translate(0, -150%); -webkit-animation-delay:0s;}    
+div.spinner div:nth-child(2) {-webkit-transform:rotate(30deg) translate(0, -150%); -webkit-animation-delay:-0.9167s;}
+div.spinner div:nth-child(3) {-webkit-transform:rotate(60deg) translate(0, -150%); -webkit-animation-delay:-0.833s;}
+div.spinner div:nth-child(4) {-webkit-transform:rotate(90deg) translate(0, -150%); -webkit-animation-delay:-0.75s;}
+div.spinner div:nth-child(5) {-webkit-transform:rotate(120deg) translate(0, -150%); -webkit-animation-delay:-0.667s;}
+div.spinner div:nth-child(6) {-webkit-transform:rotate(150deg) translate(0, -150%); -webkit-animation-delay:-0.5833s;}
+div.spinner div:nth-child(7) {-webkit-transform:rotate(180deg) translate(0, -150%); -webkit-animation-delay:-0.5s;}
+div.spinner div:nth-child(8) {-webkit-transform:rotate(210deg) translate(0, -150%); -webkit-animation-delay:-0.41667s;}
+div.spinner div:nth-child(9) {-webkit-transform:rotate(240deg) translate(0, -150%); -webkit-animation-delay:-0.333s;}
+div.spinner div:nth-child(10) {-webkit-transform:rotate(270deg) translate(0, -150%); -webkit-animation-delay:-0.25s;}
+div.spinner div:nth-child(11) {-webkit-transform:rotate(300deg) translate(0, -150%); -webkit-animation-delay:-0.1667s;}
+div.spinner div:nth-child(12) {-webkit-transform:rotate(330deg) translate(0, -150%); -webkit-animation-delay:-0.083s;}
+
+@-webkit-keyframes fade {
+from {opacity:1;}
+to {opacity:0.25;}
+}
+</style>
+</head>
+<body>
+
+<div class="spinner">
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+
+<canvas id="spnnr" width="16" height="16">Now loading...</canvas>
+<script>
+var canvas = document.getElementById('spnnr');
+var context = canvas.getContext('2d');
+var started = new Date();
+var draw = function () {
+	var rotationsSinceStarted = (new Date() - started) / 1000;
+	var rotationInTwelfths = parseInt(rotationsSinceStarted * 12) / 12;
+	context.save();
+	context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+	context.translate(8, 8);
+	context.rotate(Math.PI * 2 * rotationInTwelfths);
+	for (var i = 0; i < 16; i++) {
+		context.rotate(Math.PI * 2 / 12);
+		context.beginPath();
+		context.moveTo(4, 0);
+		context.lineTo(8, 0);
+		context.lineWidth = 1;
+		context.strokeStyle = "rgba(0,0,0," + i / 12 + ")";
+		context.stroke();
+	}
+	context.restore();
+};
+window.setInterval(draw, 1000 / 12);
+</script>
+
+</body>
+</html>
