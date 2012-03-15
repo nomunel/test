@@ -1,18 +1,25 @@
-window.addEventListener('load', unitDoc, false);
-function unitDoc(){
-//
+var print = console.log;
 function write(v){
 	document.write(v);
 }
-write(s[1]);
-//
+
+window.addEventListener('load', unitDoc, false);
+function unitDoc(){
+//  stringPropTest();
+  DiagnosticTypeForm();
 }
 
-var print = console.log;
+/* stringPropTest */
+function stringPropTest(){
+  var s = new String('abc');
+  print(
+    s[1],
+    'abc'[2]
+  );
+}
 
-var s = new String('abc');
-print(
-s[1],
-'abc'[2]
-);
 
+/* DiagnosticTypeForm */
+function DiagnosticTypeForm(){
+  alert('a');
+}
