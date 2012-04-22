@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="">
+<title>UI Sample</title>
+<link rel="stylesheet" type="text/css" href="./base.css">
+<link rel="stylesheet" type="text/css" href="./default.css">
+<style>
+body{
+margin:0;
+}
+
+.progressbar{
+margin:200px 10px;
+height:10px;
+width:200px;
+background-color:#ccc;
+}
+
+.progressbar .line{
+position:relative;
+height:10px;
+background-color:#ff0;
+}
+
+.progressbar .line .up{
+display:inline-block;
+position:absolute;
+right:0;
+height:10px;
+background-color:#f00;
+vertical-align:top;
+}
+
+.progressbar .line .up span{
+display:inline-block;
+position:absolute;
+left:0;
+height:10px;
+width:4px;
+background-color:#faa;
+vertical-align:top;
+}
+
+/* type1 */
+.progressbar.type1 .line .up span{
+-webkit-animation:"anm-bgScrolling" 0.5s linear 0 infinite normal;/* alternate; */
+}
+@-webkit-keyframes "anm-bgScrolling"{
+0%{left:0;}
+100%{left:100%;}
+}
+
+/* type2 */
+.progressbar.type2 .line .up{
+-webkit-animation:"anm-lightUp" 0.5s linear 0 infinite alternate;
+}
+@-webkit-keyframes "anm-lightUp"{
+0%,60%{-webkit-box-shadow:0 0 0 #f00;}
+100%{-webkit-box-shadow:0 0 10px #f00;}
+}
+
+/* type3 */
+.progressbar.type3 .line .up{
+-webkit-animation:"anm-bgColor" 0.5s linear 0 infinite alternate;
+}
+@-webkit-keyframes "anm-bgColor"{
+0%{background-color:#ff0;}
+100%{background-color:#f00;}
+}
+</style>
+</head>
+<body>
+
+<div class="progressbar type1">
+	<div class="line" style="width:80%;"><span class="up" style="width:20%;"><span></span></span></div>
+</div>
+
+<div class="progressbar type2">
+	<div class="line" style="width:80%;"><span class="up" style="width:20%;"></span></div>
+</div>
+
+<div class="progressbar type3">
+	<div class="line" style="width:80%;"><span class="up" style="width:20%;"></span></div>
+</div>
+
+</body>
+</html>
