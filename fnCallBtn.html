@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="GREE">
+  <meta name="keywords" content="GREE, openfeint, free games">
+  <!-- iphone -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="address=no">
+  <link rel="apple-touch-icon-precomposed" href="../../img/common/2x/favicon.png">
+  <!-- /iphone -->
+  <title>Community Individual &gt; topics &gt; topic - GREE</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../../img/1x/common/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="../../css/core.css">
+  <script src="./js/jquery-1.7.1.js"></script>
+<style>
+#btnsWrap{
+position:absolute;
+right:10px;
+top:100px;
+padding:3px;
+border-radius:6px;
+background-color:#ccc;
+}
+#btnsWrap ul{
+/* Can not be edited */overflow:hidden;
+/* Can not be edited */visibility:hidden;
+/* Can not be edited */white-space:nowrap;
+border-radius:3px;
+}
+#btnsWrap ul.open{
+/* Can not be edited */-webkit-transition-property:width;
+/* Can not be edited */transition-property:width;
+-webkit-transition-timing-function:ease;
+transition-timing-function:ease;
+-webkit-transition-duration:0.3s;
+transition-duration:0.3s;
+}
+#btnsWrap li{
+/* Can not be edited */display:inline-block;
+padding:10px;
+background-color:#fff;
+}
+</style>
+<script>
+function fnCallBtn(btnWrap) {
+	var wrap = $(btnWrap);
+	var wrap_h = wrap.height();
+	var btns = wrap.children();
+	var btns_w = 0;
+	var openBtn = wrap.children('.openBtn');
+	var openBtn_w = openBtn.outerWidth(true);
+
+	wrap.css("height", wrap_h);
+
+	btns.each(function() {
+		var btn = $(this);
+		if(btn.attr('class') != 'openBtn') {
+			btns_w += btn.outerWidth(true);
+			btn.toggleClass("hide");
+		}
+	});
+	wrap.css('width', openBtn_w);
+	wrap.css('visibility', 'visible');
+	openBtn.click(function() {
+		wrap.toggleClass('open');
+		btns.toggleClass('hide');
+		wrap.css('width', btns_w);
+		window.addEventListener('scroll', fnClose, false);
+		window.addEventListener('touchmove', fnClose, false);
+	});
+	function fnClose() {
+		if(wrap.attr('class') == 'open') {
+			wrap.toggleClass('open');
+			window.removeEventListener('scroll', fnClose, false);
+			window.removeEventListener('touchmove', fnClose, false);
+			wrap.css('width', openBtn_w);
+			btns.toggleClass('hide');
+		}
+	}
+}
+</script>
+</head>
+<body>
+
+<div class="sourceInfo" style="height:1000px;">
+  <h1 class="heading1">fnCallBtn</h1>
+
+  <h2 class="heading2">特徴</h2>
+  <ul class="unordered-list">
+    <li>初期表示ボタンをタップすると、隠れているボタンがスライドインします</li>
+    <li>ボタンの大きさや数に制限はありません（ただし、画面からはみ出たボタンは押せないので注意）</li>
+    <li>スクロールすると閉じます</li>
+  </ul>
+
+  <h2 class="heading2">実装方法</h2>
+  <ol class="ordered-list">
+    <li>最低限、各種ボタンとそれをラップする要素一つを用意</li>
+    <li>最初に表示するボタンにclass "openBtn"を付与</li>
+    <li>これらの要素の後に、ラップ要素を引数に指定した関数"fnCallBtn"を記述</li>
+  </ol>
+  <h2 class="heading2">備考</h2>
+  <ul class="unordered-list">
+    <li>要素内の改行/スペースは無くすかコメントアウトする</li>
+    <li>positionをleftで配置すれば右に展開</li>
+    <li>閉じる際もアニメーションさせてみましたが、閉じる操作（スクロール）中はアニメーションが不安定になるため非推奨</li>
+    <li>閉じる際、iOSで縦方向のスクロール時に、瞬時に閉じない場合が多い</li>
+  </ul>
+</div>
+
+<div id="btnsWrap">
+  <ul><!--
+    --><li class="openBtn">←</li><!--
+    --><li onClick="alert('a');">button</li><!--
+    --><li onClick="alert('a');">button</li><!--
+    --><li onClick="alert('a');">button</li><!--
+    --><li onClick="alert('a');">button</li><!--
+  --></ul>
+</div>
+
+<script>fnCallBtn('#btnsWrap ul')</script>
+
+</body>
+</html>
