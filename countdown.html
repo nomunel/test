@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+<title>countdown</title>
+<script>
+(function(global){
+  function CountdownTimer(elm,start,fin,msg){
+    this.initialize.apply(this,arguments);
+  }
+  CountdownTimer.prototype ={
+    initialize:function(elm,start,fin,msg){
+      this.elem = document.querySelector(elm);
+      this.nowTime = start;
+      this.fin = fin;
+      this.msg = msg;
+    },countDown:function(){
+          var tMe = this;
+          var tid;
+          var tToday = tMe.nowTime;
+          var mFin = tMe.fin;
+          var tTimer = "";
+          var floor = global.Math.floor;
+          var tHour = floor(((mFin-tToday)%(24*60*60*1000))/(60*60*1000));
+          var tMin = floor(((mFin-tToday)%(24*60*60*1000))/(60*1000))%60;
+          var tSec = floor(((mFin-tToday)%(24*60*60*1000))/1000)%60%60;
+
+          if((mFin - tToday) > 0 ){
+            if (tHour) timer += tHour;
+            tTimer += '<p><span class="finish">終了まで</span><br />' + '<span class="count">' + tMe.addZero(tMin) + '</span>'+'<span class="count">:</span>'+'<span class="count">' + tMe.addZero(tSec) + '</span></p>';
+              tMe.elem.innerHTML = tTimer;
+              tMe.nowTime = tToday + 1000;
+              tid = global.setTimeout(function(){tMe.countDown();},1000 );
+          } else {
+            tMe.elem.innerHTML = tMe.msg;
+            return;
+          }
+        }
+    ,addZero:function(num){return('0'+num).slice(-2);}
+    }
+    function cdtimer(nowTime, limitTime){
+      var tToday = new Date(nowTime).getTime();
+      var tLimit = new Date(limitTime).getTime();
+      var tTimer = new CountdownTimer('.js_cdtimer',tToday, tLimit,'<span class="count">決戦終了!</span>');
+      tTimer.countDown();
+  }
+  global.cdtimer = cdtimer;
+}(this));
+</script>
+</head>
+<body>
+<div id="CDTimer" class="js_cdtimer"></div>
+
+<script>
+cdtimer('2013/07/26 18:04:00', '2013/07/26 18:05:00');
+</script>
+</body>
+</html>
