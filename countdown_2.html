@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+<title>countdown</title>
+<script>
+/**
+ * CountDown
+ */
+// if (typeof CountDown == 'undefined') {
+
+function CountDown(){
+    this.initialize.apply(this,arguments);
+
+};
+var hoge = CountDown.prototype;
+hoge.initialize = function(opt){
+    this.timerElm = document.querySelector(opt.timerElm);
+    this.endMsgElm = document.querySelector(opt.msg);
+    this.nowTime = opt.startTime;
+    this.endTime = opt.endTime;
+    this.timeLeft = (this.endTime - this.nowTime) / 1000;
+    this.count();
+}
+hoge.count = function(){
+    var me = this,
+        t = me.timeLeft,
+        h = "" + (t/36000|0) + (t/3600%10|0),
+        m = "" + (t%3600/600|0) + (t%3600/60%10|0),
+        s = "" + (t%60/10|0) + (t%60%10);
+    console.log(me.timerElm);
+    me.timerElm.innerHTML = h + m + s;
+    me.nowTime.setTime(me.nowTime.getTime() + 1000);
+    console.log(me.nowTime);
+    setTimeout(this.count, 1000);
+}
+hoge.zeroPadding = function(num){
+    return ('0'+num).slice(-2);
+}
+// }
+</script>
+</head>
+<body>
+<div class="js_countDownTimer"></div>
+<div class="js_countEndMsg" style="display:none;">決戦終了!</div>
+<script>
+var countDown = new CountDown({
+    timerElm: '.js_countDownTimer',
+    endMsgElm: '.js_countEndMsg',
+    startTime: new Date('2013/07/26 18:04:00'),
+    endTime: new Date('2013/07/26 18:04:10')
+});
+</script>
+</body>
+</html>
