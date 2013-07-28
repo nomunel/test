@@ -5,36 +5,38 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
 <title>countdown</title>
 <script>
-/**
- * CountDown
- */
-// if (typeof CountDown == 'undefined') {
+'use strict';
 
-function CountDown(){
-    this.initialize.apply(this,arguments);
-
-};
-var hoge = CountDown.prototype;
-hoge.initialize = function(opt){
+function CountDown(opt){
     this.timerElm = document.querySelector(opt.timerElm);
-    this.endMsgElm = document.querySelector(opt.msg);
+    this.endMsgElm = document.querySelector(opt.endMsgElm);
     this.nowTime = opt.startTime;
     this.endTime = opt.endTime;
-    this.timeLeft = (this.endTime - this.nowTime) / 1000;
-    this.count();
+};
+var hoge = CountDown.prototype;
+hoge.zeroPadding = function(num){
+    return ('0'+num).slice(-2);
 }
 hoge.count = function(){
-    var t = this.timeLeft,
+    var t = (this.endTime - this.nowTime) / 1000,
         h = "" + (t/36000|0) + (t/3600%10|0),
         m = "" + (t%3600/600|0) + (t%3600/60%10|0),
         s = "" + (t%60/10|0) + (t%60%10),
+        time = '',
         me = this;
-    this.timerElm.innerHTML = h + m + s;
+    if(h > 0){
+        time += this.zeroPadding(h) + ':';
+    }
+    time += this.zeroPadding(m) + ':' + this.zeroPadding(s);
+    if(t > 0){
+        this.timerElm.innerHTML = time;
+    }else{
+        this.timerElm.style.display = 'none';
+        this.endMsgElm.style.display = 'block';
+        return;
+    }
     this.nowTime.setTime(this.nowTime.getTime() + 1000);
     setTimeout(function(){me.count();}, 1000);
-}
-hoge.zeroPadding = function(num){
-    return ('0'+num).slice(-2);
 }
 // }
 </script>
@@ -49,6 +51,7 @@ var countDown = new CountDown({
     startTime: new Date('2013/07/26 18:04:00'),
     endTime: new Date('2013/07/26 18:04:10')
 });
+countDown.count();
 </script>
 </body>
 </html>

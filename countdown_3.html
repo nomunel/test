@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+<title>countdown</title>
+<style>
+.num{
+    width: 10px;
+    height: 20px;
+}
+.num:after{
+    content: attr(title);
+}
+</style>
+<script>
+'use strict';
+
+function countDown(opt){
+    var timerElm = opt.timerElm,
+        endMsgElm = opt.endMsgElm,
+        nowTime = opt.startTime,
+        endTime = opt.endTime,
+        timeLeft = timerElm.appendChild(document.createElement('p'));
+    function count(){
+        var t = (endTime - nowTime) / 1000,
+            h = "" + (t/36000|0) + (t/3600%10|0),
+            m = "" + (t%3600/600|0) + (t%3600/60%10|0),
+            s = "" + (t%60/10|0) + (t%60%10),
+            time = '',
+            strs = [],
+            span = document.createElement('span'),
+            i,
+            il;
+        function zeroPadding(num){
+            return ('0'+num).slice(-2);
+        }
+        if(h > 0){
+            time += zeroPadding(h) + ':';
+        }
+        time += zeroPadding(m) + ':' + zeroPadding(s);
+        if(t > 0){
+            strs = time.split('');
+            console.log(strs);
+            for (i=0, il=strs.length; i<il; i++) {
+                span.setAttribute('class', 'num');
+                span.setAttribute('title', strs[i]);
+                timeLeft.appendChild(span);
+            }
+            timerElm.innerHTML = '';
+            timerElm.appendChild(timeLeft);
+        }else{
+            timerElm.style.display = 'none';
+            endMsgElm.style.display = 'block';
+            return;
+        }
+        nowTime.setTime(nowTime.getTime() + 1000);
+        setTimeout(count, 1000);
+    }
+    count();
+}
+</script>
+</head>
+<body>
+<span class="num" title="1"></span>
+<span class="num" title="1"></span>
+<span class="num" title="1"></span>
+<span class="num" title="1"></span>
+<div class="js_countDownTimer"></div>
+<div class="js_countEndMsg" style="display:none;">決戦終了!</div>
+<script>
+countDown({
+    timerElm: document.querySelector('.js_countDownTimer'),
+    endMsgElm: document.querySelector('.js_countEndMsg'),
+    startTime: new Date('2013/07/26 18:04:00'),
+    endTime: new Date('2013/07/26 18:04:10')
+});
+</script>
+</body>
+</html>
